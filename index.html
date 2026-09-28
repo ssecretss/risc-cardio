@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Calculator SCORE2 · riscul cardiovascular pe 10 ani</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Inter:wght@400..700&display=swap">
+<style>
+:root{
+  --bg:#F3F5F8; --panel:#FFFFFF; --ink:#16203A; --muted:#566079; --line:#DCE1EA;
+  --accent:#C8372D; --blue:#245B9E; --amber:#B7701A; --ok:#2E7D5B;
+  --seg1:#CFE0F3; --seg2:#F5DDB0; --seg3:#F1C0B8; --seg4:#E0857A;
+  --field:#F7F9FC; --focus:#245B9E;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#10151F; --panel:#181F2C; --ink:#EEF1F6; --muted:#A3ADC2; --line:#2B3446;
+    --accent:#F07266; --blue:#7FB0EC; --amber:#F0B45E; --ok:#6CC59C;
+    --seg1:#2A4A70; --seg2:#6B5423; --seg3:#7A3A33; --seg4:#A8433A; --field:#121925; --focus:#7FB0EC;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10151F; --panel:#181F2C; --ink:#EEF1F6; --muted:#A3ADC2; --line:#2B3446;
+  --accent:#F07266; --blue:#7FB0EC; --amber:#F0B45E; --ok:#6CC59C;
+  --seg1:#2A4A70; --seg2:#6B5423; --seg3:#7A3A33; --seg4:#A8433A; --field:#121925; --focus:#7FB0EC;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 20px 48px}
+header h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(28px,4.2vw,44px);line-height:1.1;margin:0 0 8px}
+header p{margin:0;color:var(--muted);max-width:68ch}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:24px;margin-top:24px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px}
+fieldset{border:0;margin:0 0 18px;padding:0}
+legend,.lab{font-weight:600;font-size:14px;margin-bottom:8px;display:block}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg label{flex:1;min-width:90px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;text-align:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--field);cursor:pointer;font-weight:500}
+.seg input:checked+span{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.seg input:focus-visible+span{outline:3px solid var(--focus);outline-offset:2px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+@media (max-width:420px){.row{grid-template-columns:1fr}}
+.f label{font-weight:600;font-size:14px;display:block;margin-bottom:6px}
+.f input,.f select{width:100%;font:inherit;font-size:18px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--field);color:var(--ink)}
+.f input:focus-visible,.f select:focus-visible{outline:3px solid var(--focus);outline-offset:1px}
+.hint{font-size:13px;color:var(--muted);margin-top:4px}
+.checks label{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:15px}
+.checks input{width:20px;height:20px;margin-top:2px;accent-color:var(--accent)}
+.result{position:sticky;top:16px}
+.big{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.pct{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(64px,10vw,104px);line-height:1;font-variant-numeric:tabular-nums}
+.cat{font-weight:700;font-size:18px;padding:6px 14px;border-radius:999px;color:#fff}
+.sub{color:var(--muted);margin:6px 0 18px}
+.bar{position:relative;margin:8px 0 6px}
+.segs{display:grid;grid-template-columns:2fr 8fr 10fr 12fr;height:18px;border-radius:9px;overflow:hidden}
+.segs div:nth-child(1){background:var(--seg1)}.segs div:nth-child(2){background:var(--seg2)}.segs div:nth-child(3){background:var(--seg3)}.segs div:nth-child(4){background:var(--seg4)}
+.mk{position:absolute;top:-6px;width:6px;height:30px;border-radius:3px;background:var(--ink);transition:left .5s ease}
+@media (prefers-reduced-motion:reduce){.mk{transition:none}}
+.ticks{display:grid;grid-template-columns:2fr 8fr 10fr 12fr;font-size:12px;color:var(--muted)}
+.ticks span{border-left:1px solid var(--line);padding-left:4px}
+h2{font-family:Fraunces,Georgia,serif;font-size:22px;margin:22px 0 10px}
+.actions{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.actions li{padding:12px 14px;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:10px;background:var(--field)}
+.actions li.w{border-left-color:var(--accent)}
+.actions li.a{border-left-color:var(--amber)}
+.actions li.g{border-left-color:var(--ok)}
+.actions b{display:block;margin-bottom:2px}
+.what{margin-top:16px;padding:14px;border-radius:12px;background:var(--field);border:1px dashed var(--line)}
+.what strong{font-variant-numeric:tabular-nums}
+.warn{padding:14px;border-radius:12px;border:1px solid var(--accent);color:var(--ink);background:transparent;margin-bottom:14px}
+.foot{color:var(--muted);font-size:13px;margin-top:22px;max-width:90ch}
+.err{color:var(--accent);font-weight:600;min-height:1.5em}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>Riscul tău cardiovascular pe 10 ani</h1>
+<p>Calculator SCORE2 (40–69 ani) și SCORE2-OP (70–89 ani), după ESC. Estimează riscul de infarct, AVC sau deces cardiovascular. Instrument educațional: interpretarea se face împreună cu medicul.</p>
+</header>
+
+<div class="grid">
+<form class="panel" id="f" autocomplete="off" onsubmit="return false">
+  <fieldset><legend>Sex</legend>
+    <div class="seg">
+      <label><input type="radio" name="sex" value="m" checked><span>Bărbat</span></label>
+      <label><input type="radio" name="sex" value="f"><span>Femeie</span></label>
+    </div>
+  </fieldset>
+  <fieldset><legend>Fumezi în prezent?</legend>
+    <div class="seg">
+      <label><input type="radio" name="smk" value="0" checked><span>Nu</span></label>
+      <label><input type="radio" name="smk" value="1"><span>Da</span></label>
+    </div>
+  </fieldset>
+  <div class="row">
+    <div class="f"><label for="age">Vârsta (ani)</label><input id="age" type="number" inputmode="numeric" min="40" max="89" value="55"><div class="hint">40–89 ani</div></div>
+    <div class="f"><label for="sbp">Tensiune sistolică (mmHg)</label><input id="sbp" type="number" inputmode="numeric" min="90" max="220" value="138"><div class="hint">Valoarea „mare”</div></div>
+  </div>
+  <fieldset><legend>Unitate pentru colesterol</legend>
+    <div class="seg">
+      <label><input type="radio" name="unit" value="mg" checked><span>mg/dL</span></label>
+      <label><input type="radio" name="unit" value="mmol"><span>mmol/L</span></label>
+    </div>
+  </fieldset>
+  <div class="row">
+    <div class="f"><label for="tc">Colesterol total</label><input id="tc" type="number" inputmode="decimal" step="any" value="220"></div>
+    <div class="f"><label for="hdl">HDL-colesterol</label><input id="hdl" type="number" inputmode="decimal" step="any" value="48"></div>
+  </div>
+  <div class="row">
+    <div class="f"><label for="ldl">LDL-colesterol (opțional)</label><input id="ldl" type="number" inputmode="decimal" step="any" value="140"><div class="hint">Pentru ținta ta de LDL</div></div>
+    <div class="f"><label for="reg">Regiunea de risc</label>
+      <select id="reg">
+        <option value="vh" selected>Foarte înalt (ex. România)</option>
+        <option value="high">Înalt</option>
+        <option value="mod">Moderat</option>
+        <option value="low">Scăzut</option>
+      </select></div>
+  </div>
+  <fieldset class="checks"><legend>Ai deja una dintre acestea?</legend>
+    <label><input type="checkbox" id="x_cvd"> Boală cardiovasculară aterosclerotică (infarct, stent, bypass, AVC, arteriopatie)</label>
+    <label><input type="checkbox" id="x_dm"> Diabet zaharat</label>
+    <label><input type="checkbox" id="x_ckd"> Boală cronică de rinichi (eGFR sub 60)</label>
+    <label><input type="checkbox" id="x_fh"> Hipercolesterolemie familială diagnosticată</label>
+  </fieldset>
+  <div class="err" id="err" role="alert"></div>
+</form>
+
+<section class="panel result" aria-live="polite">
+  <div id="override"></div>
+  <div id="main">
+    <div class="big"><span class="pct" id="pct">–</span><span class="cat" id="cat">–</span></div>
+    <p class="sub" id="sub"></p>
+    <div class="bar" aria-hidden="true"><div class="segs"><div></div><div></div><div></div><div></div></div><div class="mk" id="mk"></div></div>
+    <div class="ticks" aria-hidden="true"><span>0%</span><span>2%</span><span>10%</span><span>20%+</span></div>
+  </div>
+  <h2>Ce e de făcut</h2>
+  <ul class="actions" id="act"></ul>
+  <div class="what" id="what"></div>
+</section>
+</div>
+
+<p class="foot">Surse: SCORE2 working group, Eur Heart J 2021;42:2439–2454 · SCORE2-OP working group, Eur Heart J 2021;42:2455–2467 · 2025 Focused Update ESC/EAS dislipidemii (Mach et al., Eur Heart J 2025) pentru categoriile de risc și țintele LDL · 2024 ESC Guidelines hipertensiune (McEvoy et al.) pentru tensiune. Modelele nu se aplică persoanelor cu boală cardiovasculară, diabet, boală renală cronică sau hipercolesterolemie familială. Nu înlocuiește consultul medical.</p>
+</div>
+
+<script>
+(function(){
+var S={m:{b:[0.3742,0.6012,0.2777,0.1458,-0.2698,-0.0755,-0.0255,-0.0281,0.0426],s0:0.9605},f:{b:[0.4648,0.7744,0.3131,0.1002,-0.2606,-0.1088,-0.0277,-0.0226,0.0613],s0:0.9776}};
+var OP={m:{b:[0.0634,0.3524,0.0094,0.0850,-0.3564,-0.0247,-0.0005,0.0073,0.0091],s0:0.7576,mean:0.0929},f:{b:[0.0789,0.4921,0.0102,0.0605,-0.3040,-0.0255,-0.0004,-0.0009,0.0154],s0:0.8082,mean:0.2290}};
+var CAL={low:{m:[-0.5699,0.7476],f:[-0.7380,0.7019]},mod:{m:[-0.1565,0.8009],f:[-0.3143,0.7701]},high:{m:[0.3207,0.9360],f:[0.5710,0.9369]},vh:{m:[0.5836,0.8294],f:[0.9412,0.8329]}};
+var CALOP={low:{m:[-0.34,1.19],f:[-0.52,1.01]},mod:{m:[0.01,1.25],f:[-0.1,1.1]},high:{m:[0.08,1.15],f:[0.38,1.09]},vh:{m:[0.05,0.7],f:[0.38,0.69]}};
+function risk(sex,age,smk,sbp,tc,hdl,reg){var u,sc,k,b,a,s,t,h,lp;
+ if(age<70){k=S[sex];b=k.b;a=(age-60)/5;s=(sbp-120)/20;t=tc-6;h=(hdl-1.3)/0.5;
+  lp=b[0]*a+b[1]*smk+b[2]*s+b[3]*t+b[4]*h+b[5]*a*smk+b[6]*a*s+b[7]*a*t+b[8]*a*h;u=1-Math.pow(k.s0,Math.exp(lp));sc=CAL[reg][sex];}
+ else{k=OP[sex];b=k.b;a=age-73;s=sbp-150;t=tc-6;h=hdl-1.4;
+  lp=b[0]*a+b[1]*smk+b[2]*s+b[3]*t+b[4]*h+b[5]*a*smk+b[6]*a*s+b[7]*a*t+b[8]*a*h;u=1-Math.pow(k.s0,Math.exp(lp-k.mean));sc=CALOP[reg][sex];}
+ u=Math.min(Math.max(u,1e-9),1-1e-9);
+ return 100*(1-Math.exp(-Math.exp(sc[0]+sc[1]*Math.log(-Math.log(1-u)))));}
+var $=function(id){return document.getElementById(id)};
+var CATS=[{n:"Scăzut",c:"var(--ok)",t:116},{n:"Moderat",c:"var(--blue)",t:100},{n:"Înalt",c:"var(--amber)",t:70},{n:"Foarte înalt",c:"var(--accent)",t:55}];
+function catOf(r){return r<2?0:r<10?1:r<20?2:3}
+function ageCat(age,r){var th=age<50?[2.5,7.5]:age<70?[5,10]:[7.5,15];return r<th[0]?"scăzut–moderat":r<th[1]?"înalt":"foarte înalt"}
+function val(name){var el=document.querySelector('input[name="'+name+'"]:checked');return el?el.value:null}
+function num(id){var v=parseFloat(String($(id).value).replace(",","."));return isNaN(v)?null:v}
+function li(cls,title,txt){return '<li class="'+cls+'"><b>'+title+'</b>'+txt+'</li>'}
+function fmt(x){return (x<10?x.toFixed(1):x.toFixed(0)).replace(".",",")}
+function markerLeft(r){var p; if(r<2)p=r/2*(2/32); else if(r<10)p=(2+(r-2)/8*8)/32; else if(r<20)p=(10+(r-10)/10*10)/32; else p=Math.min(1,(20+(r-20)/20*12)/32); return "calc("+(p*100)+"% - 3px)"}
+function update(){
+ var sex=val("sex"),smk=+val("smk"),unit=val("unit"),age=num("age"),sbp=num("sbp"),tc=num("tc"),hdl=num("hdl"),ldl=num("ldl"),reg=$("reg").value;
+ var f=unit==="mg"?38.67:1, e="";
+ if(age===null||age<40||age>89)e="Vârsta trebuie să fie între 40 și 89 de ani.";
+ else if(sbp===null||sbp<90||sbp>220)e="Introdu o tensiune sistolică între 90 și 220 mmHg.";
+ else if(tc===null||hdl===null||tc<=0||hdl<=0)e="Introdu colesterolul total și HDL.";
+ else if(hdl>=tc)e="HDL trebuie să fie mai mic decât colesterolul total.";
+ else if(unit==="mg"&&tc<60)e="Valoarea pare în mmol/L: schimbă unitatea.";
+ else if(unit==="mmol"&&tc>20)e="Valoarea pare în mg/dL: schimbă unitatea.";
+ if(age!==null&&age>=35&&age<40){$("err").innerHTML='Pentru 35–39 de ani folosește <a href="tineri.html" target="_blank" rel="noopener" style="color:var(--blue)">calculatorul pentru tineri</a>.';$("pct").textContent="–";return}
+ $("err").textContent=e; if(e){$("pct").textContent="–";return}
+ var tcm=tc/f,hdlm=hdl/f,ldlmg=ldl===null?null:(unit==="mg"?ldl:ldl*38.67);
+ var ex=[];if($("x_cvd").checked)ex.push("cvd");if($("x_dm").checked)ex.push("dm");if($("x_ckd").checked)ex.push("ckd");if($("x_fh").checked)ex.push("fh");
+ var r=risk(sex,age,smk,sbp,tcm,hdlm,reg), c=catOf(r), ov="";
+ if(ldlmg!==null&&ldlmg>=190&&c<2){c=2;ov="LDL ≥ 190 mg/dL este un factor de risc marcat: riscul este cel puțin înalt, indiferent de scor.";}
+ if(ex.length){
+  var vh=ex.indexOf("cvd")>=0;
+  c=vh?3:Math.max(c,2);
+  ov=(vh?"Ai boală cardiovasculară aterosclerotică: riscul este foarte înalt, iar SCORE2 nu se aplică.":"Cu diabet, boală renală cronică sau hipercolesterolemie familială, SCORE2 nu se aplică: riscul este de regulă cel puțin înalt și îl stabilește medicul (pentru diabet există SCORE2-Diabetes).");
+ }
+ $("override").innerHTML=ov?'<div class="warn">'+ov+'</div>':"";
+ $("main").style.opacity=ex.length?0.35:1;
+ $("pct").textContent=fmt(r)+"%";
+ var C=CATS[c]; $("cat").textContent="Risc "+C.n.toLowerCase(); $("cat").style.background=C.c;
+ $("sub").textContent=(age<70?"SCORE2":"SCORE2-OP")+", regiune "+$("reg").selectedOptions[0].text.toLowerCase()+". În clasificarea pe vârstă a ghidului de prevenție 2021: risc "+ageCat(age,r)+".";
+ $("mk").style.left=markerLeft(r);
+ var A="";
+ // LDL
+ var tgt=C.t, half=c>=2?" și o scădere de cel puțin 50% față de valoarea inițială":"";
+ if(ldlmg===null){A+=li("","Ținta ta de LDL: sub "+tgt+" mg/dL"+half,"Adaugă LDL-ul ca să vezi dacă ești la țintă.");}
+ else{var above=ldlmg>=tgt;
+  if(!above)A+=li("g","LDL la țintă (sub "+tgt+" mg/dL"+(c>=2?"; menține scăderea ≥ 50%":"")+")","Continuă stilul de viață și controalele.");
+  else if(c===3)A+=li("w","LDL peste țintă: "+Math.round(ldlmg)+" față de sub 55 mg/dL",(ldlmg>=70?"Tratamentul hipolipemiant este recomandat, pe lângă stilul de viață.":"Tratamentul hipolipemiant ar trebui luat în considerare.")+" Discută cu medicul.");
+  else if(c===2)A+=li("w","LDL peste țintă: "+Math.round(ldlmg)+" față de sub 70 mg/dL",(ldlmg>=100?"Tratamentul hipolipemiant este recomandat, pe lângă stilul de viață.":"Tratamentul hipolipemiant ar trebui luat în considerare.")+" Discută cu medicul.");
+  else A+=li("a","LDL peste țintă: "+Math.round(ldlmg)+" față de sub "+tgt+" mg/dL","Prima treaptă: alimentație, mișcare, greutate. Dacă LDL rămâne peste țintă, medicul poate discuta tratamentul.");
+ }
+ // BP
+ if(sbp>=140)A+=li("w","Tensiune în zona de hipertensiune ("+sbp+" mmHg)","Confirmă cu măsurători acasă. La hipertensiune confirmată, stilul de viață și tratamentul încep împreună. Ținta sub tratament: 120–129 mmHg.");
+ else if(sbp>=130&&r>=10)A+=li("a","Tensiune crescută ("+sbp+" mmHg) cu risc ≥ 10%","3 luni de stil de viață; dacă rămâne ≥ 130/80, tratamentul medicamentos este recomandat.");
+ else if(sbp>=120)A+=li("a","Tensiune crescută ("+sbp+" mmHg)","Sare sub 5 g/zi, mișcare, greutate, alcool redus; reevaluare periodică.");
+ else A+=li("g","Tensiune non-crescută ("+sbp+" mmHg)","Menține-o; măsoar-o cel puțin anual.");
+ // smoking
+ if(smk)A+=li("w","Renunțarea la fumat","Cea mai mare scădere de risc la îndemână. Cere sprijin: consiliere și tratament.");
+ A+=li("","O dată în viață: Lp(a)","Peste 50 mg/dL (105 nmol/L) crește riscul peste ce arată scorul.");
+ if(c===1)A+=li("","La limită? Riscul se poate rafina","Scorul de calciu coronarian sau ecografia carotidiană/femurală pot reclasifica riscul la cei aflați la granița dintre categorii.");
+ $("act").innerHTML=A;
+ // what-if
+ var osbp=Math.min(sbp,120), otc=tcm;
+ if(ldlmg!==null&&ldlmg>tgt)otc=tcm-(ldlmg-tgt)/38.67;
+ var ro=risk(sex,age,0,osbp,otc,hdlm,reg);
+ if(ro<r-0.05){$("what").innerHTML='Dacă '+(smk?'renunți la fumat, ':'')+(sbp>120?'aduci sistolica la 120, ':'')+(otc<tcm?'aduci LDL la țintă, ':'')+'riscul estimat devine <strong>'+fmt(ro)+'%</strong> în loc de '+fmt(r)+'%.';$("what").style.display="block";}
+ else $("what").style.display="none";
+}
+document.getElementById("f").addEventListener("input",update);
+document.getElementById("f").addEventListener("change",update);
+document.querySelectorAll('input[name="unit"]').forEach(function(el){el.addEventListener("change",function(){
+ var toMg=el.value==="mg";["tc","hdl","ldl"].forEach(function(id){var v=num(id);if(v===null)return;$(id).value=toMg?Math.round(v*38.67):(v/38.67).toFixed(2)});update();});});
+update();
+})();
+</script>
+</body>
+</html>

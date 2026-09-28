@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Riscul cardiovascular la 35–39 de ani</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Inter:wght@400..700&display=swap">
+<style>
+:root{
+  --bg:#F3F5F8; --panel:#FFFFFF; --ink:#16203A; --muted:#566079; --line:#DCE1EA;
+  --accent:#C8372D; --blue:#245B9E; --amber:#B7701A; --ok:#2E7D5B; --field:#F7F9FC; --focus:#245B9E;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); color-scheme:light dark;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151F;--panel:#181F2C;--ink:#EEF1F6;--muted:#A3ADC2;--line:#2B3446;--accent:#F07266;--blue:#7FB0EC;--amber:#F0B45E;--ok:#6CC59C;--field:#121925;--focus:#7FB0EC}}
+:root[data-theme="dark"]{--bg:#10151F;--panel:#181F2C;--ink:#EEF1F6;--muted:#A3ADC2;--line:#2B3446;--accent:#F07266;--blue:#7FB0EC;--amber:#F0B45E;--ok:#6CC59C;--field:#121925;--focus:#7FB0EC}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 20px 48px}
+h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(28px,4.2vw,44px);line-height:1.1;margin:0 0 8px}
+header p{margin:0;color:var(--muted);max-width:70ch}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:24px;margin-top:24px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px}
+fieldset{border:0;margin:0 0 18px;padding:0}
+legend{font-weight:600;font-size:14px;margin-bottom:8px;display:block}
+.seg{display:flex;gap:6px;flex-wrap:wrap}.seg label{flex:1;min-width:90px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;text-align:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--field);cursor:pointer;font-weight:500}
+.seg input:checked+span{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.seg input:focus-visible+span{outline:3px solid var(--focus);outline-offset:2px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+@media (max-width:420px){.row{grid-template-columns:1fr}}
+.f label{font-weight:600;font-size:14px;display:block;margin-bottom:6px}
+.f input,.f select{width:100%;font:inherit;font-size:18px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--field);color:var(--ink)}
+.f input:focus-visible,.f select:focus-visible{outline:3px solid var(--focus);outline-offset:1px}
+.hint{font-size:13px;color:var(--muted);margin-top:4px}
+.checks label{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:15px}
+.checks input{width:20px;height:20px;margin-top:2px;accent-color:var(--accent)}
+.result{position:sticky;top:16px}
+.lab{font-size:14px;color:var(--muted);font-weight:600}
+.big{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(60px,9vw,96px);line-height:1;font-variant-numeric:tabular-nums}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0 4px}
+.box{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--field)}
+.box b{display:block;font-size:26px;font-variant-numeric:tabular-nums}
+.box span{font-size:13px;color:var(--muted)}
+h2{font-family:Fraunces,Georgia,serif;font-size:22px;margin:22px 0 10px}
+.actions{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.actions li{padding:12px 14px;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:10px;background:var(--field)}
+.actions li.w{border-left-color:var(--accent)}.actions li.a{border-left-color:var(--amber)}.actions li.g{border-left-color:var(--ok)}
+.actions b{display:block;margin-bottom:2px}
+.warn{padding:14px;border-radius:12px;border:1px solid var(--accent);margin-bottom:14px}
+.note{font-size:14px;color:var(--muted);margin-top:10px}
+.err{color:var(--accent);font-weight:600;min-height:1.5em}
+.foot{color:var(--muted);font-size:13px;margin-top:22px;max-width:90ch}
+a{color:var(--blue)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>Riscul cardiovascular la 35–39 de ani</h1>
+<p>Sub 40 de ani, riscul pe 10 ani iese aproape mereu mic din cauza vârstei. Contează însă cât de mult cresc factorii tăi riscul și ce semnale de alarmă ai. Pagina folosește formula oficială SCORE2 pentru o proiecție la 40 de ani.</p>
+</header>
+<div class="grid">
+<form class="panel" id="f" autocomplete="off" onsubmit="return false">
+  <fieldset><legend>Sex</legend><div class="seg">
+    <label><input type="radio" name="sex" value="m" checked><span>Bărbat</span></label>
+    <label><input type="radio" name="sex" value="f"><span>Femeie</span></label></div></fieldset>
+  <fieldset><legend>Fumezi în prezent?</legend><div class="seg">
+    <label><input type="radio" name="smk" value="0"><span>Nu</span></label>
+    <label><input type="radio" name="smk" value="1" checked><span>Da</span></label></div></fieldset>
+  <div class="row">
+    <div class="f"><label for="age">Vârsta (ani)</label><input id="age" type="number" inputmode="numeric" min="35" max="39" value="37"><div class="hint">35–39 ani</div></div>
+    <div class="f"><label for="sbp">Tensiune sistolică (mmHg)</label><input id="sbp" type="number" inputmode="numeric" min="90" max="220" value="135"></div>
+  </div>
+  <fieldset><legend>Unitate pentru colesterol</legend><div class="seg">
+    <label><input type="radio" name="unit" value="mg" checked><span>mg/dL</span></label>
+    <label><input type="radio" name="unit" value="mmol"><span>mmol/L</span></label></div></fieldset>
+  <div class="row">
+    <div class="f"><label for="tc">Colesterol total</label><input id="tc" type="number" inputmode="decimal" step="any" value="230"></div>
+    <div class="f"><label for="hdl">HDL-colesterol</label><input id="hdl" type="number" inputmode="decimal" step="any" value="45"></div>
+  </div>
+  <div class="row">
+    <div class="f"><label for="ldl">LDL-colesterol (opțional)</label><input id="ldl" type="number" inputmode="decimal" step="any" value="150"></div>
+    <div class="f"><label for="reg">Regiunea de risc</label><select id="reg">
+      <option value="vh" selected>Foarte înalt (ex. România)</option><option value="high">Înalt</option><option value="mod">Moderat</option><option value="low">Scăzut</option></select></div>
+  </div>
+  <fieldset class="checks"><legend>Semnale de alarmă: bifează ce se aplică</legend>
+    <label><input type="checkbox" id="x_fh"> LDL ≥ 190 mg/dL sau hipercolesterolemie familială</label>
+    <label><input type="checkbox" id="x_dm"> Diabet zaharat</label>
+    <label><input type="checkbox" id="x_ckd"> Boală cronică de rinichi</label>
+    <label><input type="checkbox" id="x_fam"> Infarct sau AVC la o rudă de gradul I (bărbat &lt; 55 ani, femeie &lt; 65 ani)</label>
+    <label><input type="checkbox" id="x_lpa"> Lp(a) peste 50 mg/dL (105 nmol/L)</label>
+    <label><input type="checkbox" id="x_cvd"> Am deja boală cardiovasculară (infarct, stent, AVC)</label>
+  </fieldset>
+  <div class="err" id="err" role="alert"></div>
+</form>
+
+<section class="panel result" aria-live="polite">
+  <div id="ov"></div>
+  <div class="lab">Riscul tău față de o persoană de aceeași vârstă cu factori optimi</div>
+  <div class="big" id="rel">–</div>
+  <div class="pair">
+    <div class="box"><b id="p40">–</b><span>Proiecție SCORE2 la 40 de ani, dacă valorile rămân aceleași</span></div>
+    <div class="box"><b id="popt">–</b><span>Aceeași proiecție cu factori optimi</span></div>
+  </div>
+  <p class="note">Factori optimi: nefumător, sistolică 120 mmHg, colesterol total 155 mg/dL (4 mmol/L), HDL-ul tău.</p>
+  <h2>Ce e de făcut</h2>
+  <ul class="actions" id="act"></ul>
+  <p class="note">Riscul pe toată viața (modelul european LIFE-CVD2, de la 35 de ani) se calculează cu instrumentul oficial U-Prevent, disponibil gratuit pentru medici, sau cu aplicația ESC CVD Risk Calculation. Discută rezultatul cu medicul tău.</p>
+</section>
+</div>
+<p class="foot">Surse: SCORE2 working group, Eur Heart J 2021;42:2439–2454 (formula și calibrarea regională) · 2021 ESC Guidelines on CVD prevention (risc relativ și pe viață la tineri) · 2024 ESC Guidelines hipertensiune · 2025 ESC/EAS dislipidemii (LDL, Lp(a)) · Hageman et al., LIFE-CVD2, Eur J Prev Cardiol 2024;31:1690–1699. Proiecția la 40 de ani presupune valori neschimbate și nu este riscul pe viață. Instrument educațional; nu înlocuiește consultul medical.</p>
+</div>
+<script>
+(function(){
+var S={m:{b:[0.3742,0.6012,0.2777,0.1458,-0.2698,-0.0755,-0.0255,-0.0281,0.0426],s0:0.9605},f:{b:[0.4648,0.7744,0.3131,0.1002,-0.2606,-0.1088,-0.0277,-0.0226,0.0613],s0:0.9776}};
+var CAL={low:{m:[-0.5699,0.7476],f:[-0.7380,0.7019]},mod:{m:[-0.1565,0.8009],f:[-0.3143,0.7701]},high:{m:[0.3207,0.9360],f:[0.5710,0.9369]},vh:{m:[0.5836,0.8294],f:[0.9412,0.8329]}};
+function risk(sex,age,smk,sbp,tc,hdl,reg){var k=S[sex],b=k.b,a=(age-60)/5,s=(sbp-120)/20,t=tc-6,h=(hdl-1.3)/0.5;
+ var lp=b[0]*a+b[1]*smk+b[2]*s+b[3]*t+b[4]*h+b[5]*a*smk+b[6]*a*s+b[7]*a*t+b[8]*a*h;var u=1-Math.pow(k.s0,Math.exp(lp));
+ u=Math.min(Math.max(u,1e-9),1-1e-9);var sc=CAL[reg][sex];return 100*(1-Math.exp(-Math.exp(sc[0]+sc[1]*Math.log(-Math.log(1-u)))));}
+var $=function(id){return document.getElementById(id)};
+function val(n){var e=document.querySelector('input[name="'+n+'"]:checked');return e?e.value:null}
+function num(id){var v=parseFloat(String($(id).value).replace(",","."));return isNaN(v)?null:v}
+function fmt(x){return x.toFixed(1).replace(".",",")}
+function li(c,t,x){return '<li class="'+c+'"><b>'+t+'</b>'+x+'</li>'}
+function update(){
+ var sex=val("sex"),smk=+val("smk"),unit=val("unit"),age=num("age"),sbp=num("sbp"),tc=num("tc"),hdl=num("hdl"),ldl=num("ldl"),reg=$("reg").value,e="";
+ if(age===null)e="Introdu vârsta.";
+ else if(age>=40)e="De la 40 de ani folosește calculatorul SCORE2 (40–89 ani).";
+ else if(age<35)e="Sub 35 de ani nu există un scor european validat; contează semnalele de alarmă de mai jos.";
+ else if(sbp===null||sbp<90||sbp>220)e="Introdu o tensiune sistolică între 90 și 220 mmHg.";
+ else if(tc===null||hdl===null||tc<=0||hdl<=0)e="Introdu colesterolul total și HDL.";
+ else if(hdl>=tc)e="HDL trebuie să fie mai mic decât colesterolul total.";
+ else if(unit==="mg"&&tc<60)e="Valoarea pare în mmol/L: schimbă unitatea.";
+ else if(unit==="mmol"&&tc>20)e="Valoarea pare în mg/dL: schimbă unitatea.";
+ $("err").innerHTML=age!==null&&age>=40?'De la 40 de ani folosește <a href="index.html" target="_blank" rel="noopener">calculatorul SCORE2</a>.':e;
+ if(e){$("rel").textContent="–";$("p40").textContent="–";$("popt").textContent="–";$("act").innerHTML="";$("ov").innerHTML="";return}
+ var f=unit==="mg"?38.67:1,tcm=tc/f,hdlm=hdl/f,ldlmg=ldl===null?null:(unit==="mg"?ldl:ldl*38.67);
+ var r40=risk(sex,40,smk,sbp,tcm,hdlm,reg),ro=risk(sex,40,0,Math.min(sbp,120),Math.min(tcm,4.0),hdlm,reg),rel=r40/ro;
+ $("rel").textContent="× "+rel.toFixed(1).replace(".",",");$("p40").textContent=fmt(r40)+"%";$("popt").textContent=fmt(ro)+"%";
+ var fh=$("x_fh").checked||(ldlmg!==null&&ldlmg>=190),hi=[];
+ if($("x_cvd").checked)hi.push("boală cardiovasculară deja prezentă: risc foarte înalt, scorurile nu se aplică");
+ if(fh)hi.push("LDL ≥ 190 mg/dL: suspiciune de hipercolesterolemie familială, risc cel puțin înalt");
+ if($("x_dm").checked)hi.push("diabet: riscul îl stabilește medicul, de regulă cel puțin moderat–înalt");
+ if($("x_ckd").checked)hi.push("boală cronică de rinichi: risc cel puțin înalt");
+ $("ov").innerHTML=hi.length?'<div class="warn"><b>Atenție:</b> '+hi.join("; ")+'. Programează o evaluare medicală.</div>':"";
+ var A="";
+ if(smk)A+=li("w","Renunțarea la fumat","La vârsta ta aduce cel mai mare câștig. Cere sprijin: consiliere și tratament.");
+ if(sbp>=140)A+=li("w","Tensiune în zona de hipertensiune ("+sbp+" mmHg)","Confirmă cu măsurători acasă; la hipertensiune confirmată, tratamentul începe odată cu stilul de viață, și la tineri.");
+ else if(sbp>=120)A+=li("a","Tensiune crescută ("+sbp+" mmHg)","Sare sub 5 g/zi, mișcare, greutate; reevaluare anuală.");
+ else A+=li("g","Tensiune non-crescută ("+sbp+" mmHg)","Măsoar-o cel puțin o dată la 3 ani.");
+ if(ldlmg!==null){ if(fh)A+=li("w","LDL "+Math.round(ldlmg)+" mg/dL","Necesită evaluare pentru hipercolesterolemie familială și, de regulă, tratament; testarea rudelor.");
+  else if(ldlmg>=116)A+=li("a","LDL "+Math.round(ldlmg)+" mg/dL","Peste pragul de 116 mg/dL: prima treaptă este alimentația și mișcarea; discută cu medicul dacă rămâne crescut.");
+  else A+=li("g","LDL "+Math.round(ldlmg)+" mg/dL","În limite bune pentru risc scăzut.");}
+ if($("x_fam").checked)A+=li("a","Istoric familial precoce","Crește riscul peste ce arată scorul; merită evaluare cardiologică și Lp(a).");
+ if($("x_lpa").checked)A+=li("a","Lp(a) crescut","Factor de risc moștenit; controlul strict al celorlalți factori contează și mai mult.");
+ else A+=li("","O dată în viață: Lp(a)","Arată o parte moștenită a riscului pe care scorurile nu o văd.");
+ if(rel>=2)A+=li("w","Riscul tău este de "+rel.toFixed(1).replace(".",",")+" ori mai mare decât cu factori optimi","Diferența se construiește acum: corectarea devreme aduce cei mai mulți ani fără boală.");
+ $("act").innerHTML=A;
+}
+$("f").addEventListener("input",update);$("f").addEventListener("change",update);
+document.querySelectorAll('input[name="unit"]').forEach(function(el){el.addEventListener("change",function(){var toMg=el.value==="mg";["tc","hdl","ldl"].forEach(function(id){var v=num(id);if(v===null)return;$(id).value=toMg?Math.round(v*38.67):(v/38.67).toFixed(2)});update();});});
+update();
+})();
+</script>
+</body>
+</html>
